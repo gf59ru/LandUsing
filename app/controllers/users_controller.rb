@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = "Welcome to the Sample App!"
+      flash[:success] = "Вы успешно зарегистрировались в системе подачи заявок"
       redirect_to @user
     else
       render 'new'
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = "Profile updated"
+      flash[:success] = "Профиль обновлён"
       redirect_to @user
     else
       render 'edit'
@@ -43,18 +43,18 @@ class UsersController < ApplicationController
     can_destroy = false
     if current_user?(user)
       if current_user.admin?
-        flash[:error] = "Admin can't delete himself"
+        flash[:error] = "Администратор не может удалить сам себя. Для этого нужен другой администратор"
       else
         can_destroy = true
       end
     elsif current_user.admin?
       can_destroy = true
     else
-      flash[:error] = "No permission to delete users"
+      flash[:error] = "У Вас нет разрешений на удаление пользователей"
     end
     if can_destroy
       user.destroy
-      flash[:success] = "User deleted."
+      flash[:success] = "Пользователь удалён"
     end
     redirect_to users_url
   end
@@ -63,16 +63,6 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
-
-    def signed_in_user
-      store_location
-      redirect_to signin_url, notice: "Please sign in" unless signed_in?
-    end
-
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
     end
 
 end

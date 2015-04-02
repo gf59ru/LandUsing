@@ -1,0 +1,23 @@
+<% # encoding: utf-8 %>
+<% provide(:title, 'Города') %>
+<h1>Города</h1>
+
+<%= will_paginate %>
+
+<ul class="cities">
+  <% @cities.each do |city| %>
+      <li>
+        <%= link_to city.name, city %>
+        <% if signed_in? && (current_user.admin?) %>
+            | <%= link_to "Редактировать", edit_city_path(city) %>
+            | <%= link_to "Удалить", city, method: :delete,
+                          data: { confirm: "Вы уверены что хотите удалить город " + city.name + "?" } %>
+        <% end %>
+      </li>
+  <% end %>
+  <% if signed_in? && (current_user.admin?) %>
+      <%= link_to "Добавить город", new_city_path, class: "btn btn-large btn-primary" %>
+  <% end %>
+</ul>
+
+<%= will_paginate %>

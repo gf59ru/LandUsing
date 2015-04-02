@@ -1,15 +1,17 @@
 class CitiesController < ApplicationController
+  before_action :signed_in_user
   before_action :set_city, only: [:show, :edit, :update, :destroy]
 
   # GET /cities
   # GET /cities.json
   def index
-    @cities = City.all
+    @cities = City.paginate(page: params[:page], per_page: 10)
   end
 
   # GET /cities/1
   # GET /cities/1.json
   def show
+    @city = City.find(params[:id])
   end
 
   # GET /cities/new
@@ -19,6 +21,7 @@ class CitiesController < ApplicationController
 
   # GET /cities/1/edit
   def edit
+    @city = City.find(params[:id])
   end
 
   # POST /cities
@@ -28,8 +31,8 @@ class CitiesController < ApplicationController
 
     respond_to do |format|
       if @city.save
-        format.html { redirect_to @city, notice: 'City was successfully created.' }
-        format.json { render :show, status: :created, location: @city }
+        flash[:success] = "Город успещно добавлен"
+        redirect_to cities_path
       else
         format.html { render :new }
         format.json { render json: @city.errors, status: :unprocessable_entity }
@@ -42,7 +45,8 @@ class CitiesController < ApplicationController
   def update
     respond_to do |format|
       if @city.update(city_params)
-        format.html { redirect_to @city, notice: 'City was successfully updated.' }
+        flash[:success] = "Город успешно обновлён"
+        redirect_to @city
         format.json { render :show, status: :ok, location: @city }
       else
         format.html { render :edit }
@@ -56,8 +60,8 @@ class CitiesController < ApplicationController
   def destroy
     @city.destroy
     respond_to do |format|
-      format.html { redirect_to cities_url, notice: 'City was successfully destroyed.' }
-      format.json { head :no_content }
+      flash[:success] = 'Город удалён'
+      redirect_to cities_url
     end
   end
 

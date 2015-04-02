@@ -5,9 +5,14 @@
     Начальная страница для системы заявок
   </h2>
   <% if signed_in? %>
-    <h1>Здравствуйте, <%= current_user.name %></h1>
+      <h1>Здравствуйте, <%= current_user.name %></h1>
+      <%= link_to "Города", cities_path %>
+      <br/>
+      <%= link_to "Все заявки", requests_path %>
+      <br/>
+      <%= link_to "Мои заявки", requests_path %>
   <% else %>
-    <%= link_to "Войдите", signin_path, class: "btn btn-large btn-primary" %>
+      <%= link_to "Войдите", signin_path, class: "btn btn-large btn-primary" %>
       или
       <%= link_to "Зарегистрируйтесь", signup_path, class: "btn btn-large btn-primary" %>
   <% end %>

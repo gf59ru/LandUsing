@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401111055) do
+ActiveRecord::Schema.define(version: 20150401051532) do
 
   create_table "attachments", force: true do |t|
     t.integer  "request"
@@ -21,35 +21,38 @@ ActiveRecord::Schema.define(version: 20150401111055) do
   end
 
   create_table "cities", force: true do |t|
-    t.string   "name",       limit: 4000
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "requests", force: true do |t|
     t.integer  "zone"
     t.integer  "declarant"
-    t.string   "content",    limit: 4000
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: true do |t|
-    t.string   "name",            limit: 4000
-    t.string   "email",           limit: 4000
-    t.string   "password_digest", limit: 4000
-    t.string   "remember_token",  limit: 4000
-    t.boolean  "admin"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "password_digest"
+    t.string   "remember_token"
+    t.boolean  "admin",           default: false
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
   create_table "zones", force: true do |t|
     t.integer  "type"
     t.integer  "city"
-    t.string   "restriction", limit: 4000
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "restriction"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end

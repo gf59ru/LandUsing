@@ -1,5 +1,5 @@
-<% provide(:title, 'All users') %>
-<h1>All users</h1>
+<% provide(:title, 'Список пользователей') %>
+<h1>Пользователи</h1>
 
 <%= will_paginate %>
 
@@ -9,8 +9,8 @@
         <%= link_to user.name, user %>
         <% if signed_in? && (current_user.admin? || current_user?(user)) %>
         <!--% if signed_in? && (current_user.admin?) %-->
-            | <%= link_to "delete", user, method: :delete,
-                          data: { confirm: "You sure?" } %>
+            | <%= link_to "Удалить", user, method: :delete,
+                          data: { confirm: "Вы уверены что хотите удалить пользователя " + user.name + "?" } %>
         <% end %>
       </li>
   <% end %>
