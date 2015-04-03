@@ -1,0 +1,19 @@
+<% provide(:title, "Редактирование зоны города") %>
+<h1>Редактирование зоны города</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@zone) do |f| %>
+        <%= render 'shared/error_messages' %>
+
+        <%= f.label :zone_type, "Тип зоны" %>
+        <%= f.number_field :zone_type %>
+
+        <%= f.label :restriction, "Ограничения" %>
+        <%= f.text_field :restriction %>
+
+        <%= f.submit "Сохранить", class: "btn btn-large btn-primary" %>
+    <% end %>
+
+  </div>
+</div>

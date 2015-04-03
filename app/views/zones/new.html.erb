@@ -1,0 +1,21 @@
+<% provide(:title, 'Добавление зоны города') %>
+<h1>Добавление зоны города <%= link_to @city.name, @city %></h1>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@zone) do |f| %>
+
+        <%= f.label :zone_type, "Тип зоны" %>
+        <%= f.number_field :zone_type %>
+
+        <%= f.label :restriction, "Ограничения" %>
+        <%= f.text_field :restriction %>
+
+        <%= f.hidden_field :city_id, :value => @city.id %>
+
+        <%= render 'shared/error_messages' %>
+
+        <%= f.submit "Добавить зону", class: "btn btn-large btn-primary" %>
+        <!--%= link_to "Добавить", { :controller => "zones", :action => "new", :city_id => @city.id }, class: "btn btn-large btn-primary" %-->
+    <% end %>
+  </div>
+</div>

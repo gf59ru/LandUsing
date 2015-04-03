@@ -5,7 +5,7 @@
     Начальная страница для системы заявок
   </h2>
   <% if signed_in? %>
-      <h1>Здравствуйте, <%= current_user.name %></h1>
+      <h2>Здравствуйте, <%= current_user.name %></h2>
       <%= link_to "Города", cities_path %>
       <br/>
       <%= link_to "Все заявки", requests_path %>

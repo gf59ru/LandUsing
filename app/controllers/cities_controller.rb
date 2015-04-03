@@ -12,6 +12,7 @@ class CitiesController < ApplicationController
   # GET /cities/1.json
   def show
     @city = City.find(params[:id])
+    @zones = @city.zones.paginate(page: params[WillPaginate], per_page: 10)
   end
 
   # GET /cities/new

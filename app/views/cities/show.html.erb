@@ -1,2 +1,21 @@
 <% provide(:title, @city.name) %>
-<h1><%= @city.name %></h1>
+<h1><%= link_to "< Другие города ", cities_path %> <%= @city.name %></h1>
+
+<div class="span8">
+  <% if @city.zones.any? %>
+      <ol class="zones">
+        <%= render @zones %>
+      </ol>
+      <%= will_paginate @zones %>
+      <% if signed_in? && (current_user.admin?) %>
+          <%= link_to "Добавить", { :controller => "zones", :action => "new", :city_id => @city.id }, class: "btn btn-large btn-primary" %>
+      <% end %>
+  <% else %>
+      <h2>В город не добавлено ни одной зоны
+        <% if signed_in? && (current_user.admin?) %>
+            <%= link_to "Добавить", { :controller => "zones", :action => "new", :city_id => @city.id }, class: "btn btn-large btn-primary" %>
+            <!--%= link_to "Добавить", new_zone_path, class: "btn btn-large btn-primary" %-->
+        <% end %>
+      </h2>
+  <% end %>
+</div>

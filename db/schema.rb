@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401051532) do
+ActiveRecord::Schema.define(version: 20150402121351) do
 
   create_table "attachments", force: true do |t|
-    t.integer  "request"
+    t.integer  "request_id"
     t.binary   "file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20150401051532) do
   end
 
   create_table "requests", force: true do |t|
-    t.integer  "zone"
-    t.integer  "declarant"
+    t.integer  "zone_id"
+    t.integer  "user_id"
     t.string   "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20150401051532) do
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
   create_table "zones", force: true do |t|
-    t.integer  "type"
-    t.integer  "city"
+    t.integer  "zone_type"
+    t.integer  "city_id"
     t.string   "restriction"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

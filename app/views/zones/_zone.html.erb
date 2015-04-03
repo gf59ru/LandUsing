@@ -1,0 +1,11 @@
+<li>
+  <span class="content">
+    <%= zone.zone_type %>
+    <%= zone.restriction %>
+    <% if signed_in? && (current_user.admin?) %>
+        | <%= link_to "Редактировать", edit_zone_path(zone) %>
+        | <%= link_to "Удалить", zone, method: :delete,
+                      data: { confirm: "Вы уверены что хотите удалить зону?" } %>
+      <% end %>
+  </span>
+</li>

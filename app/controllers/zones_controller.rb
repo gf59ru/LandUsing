@@ -1,4 +1,5 @@
 class ZonesController < ApplicationController
+  before_action :signed_in_user
   before_action :set_zone, only: [:show, :edit, :update, :destroy]
 
   # GET /zones
@@ -15,6 +16,7 @@ class ZonesController < ApplicationController
   # GET /zones/new
   def new
     @zone = Zone.new
+    @city = City.find(params[:city_id])
   end
 
   # GET /zones/1/edit
@@ -24,41 +26,40 @@ class ZonesController < ApplicationController
   # POST /zones
   # POST /zones.json
   def create
-    @zone = Zone.new(zone_params)
-
-    respond_to do |format|
-      if @zone.save
-        format.html { redirect_to @zone, notice: 'Zone was successfully created.' }
-        format.json { render :show, status: :created, location: @zone }
-      else
-        format.html { render :new }
-        format.json { render json: @zone.errors, status: :unprocessable_entity }
-      end
+    @city = City.find(zone_params[:city_id])
+    @zone = @city.zones.build(zone_params)
+    if @zone.save
+      flash[:success] = "Зона города создана"
+      redirect_to @city
+      # format.html { redirect_to @zone, notice: 'Zone was successfully created.' }
+    else
+      flash[:error] = "Не удалось создать зону города"
+      redirect_to @city
+      # format.html { render :new }
+      # format.json { render json: @zone.errors, status: :unprocessable_entity }
     end
   end
 
   # PATCH/PUT /zones/1
   # PATCH/PUT /zones/1.json
   def update
-    respond_to do |format|
-      if @zone.update(zone_params)
-        format.html { redirect_to @zone, notice: 'Zone was successfully updated.' }
-        format.json { render :show, status: :ok, location: @zone }
-      else
-        format.html { render :edit }
-        format.json { render json: @zone.errors, status: :unprocessable_entity }
-      end
+    @city = City.find(@zone.city_id)
+    if @zone.update(zone_params)
+      flash[:success] = "Зона сохранена"
+      redirect_to @city
+    else
+      flash[:error] = "Изменения не сохранены"
+      redirect_to @city
     end
   end
 
   # DELETE /zones/1
   # DELETE /zones/1.json
   def destroy
+    city = City.find(@zone.city_id)
     @zone.destroy
-    respond_to do |format|
-      format.html { redirect_to zones_url, notice: 'Zone was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:success] = "Зона удалена"
+    redirect_to city
   end
 
   private
@@ -69,6 +70,6 @@ class ZonesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def zone_params
-      params.require(:zone).permit(:type, :city, :restriction)
+      params.require(:zone).permit(:zone_type, :city_id, :restriction)
     end
 end
